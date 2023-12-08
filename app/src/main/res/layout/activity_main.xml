@@ -72,7 +72,7 @@
                     android:backgroundTint="@color/purple_200"
                     android:gravity="center"
                     android:text="@string/mon"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="27sp" />
 
                 <TextView
@@ -83,7 +83,7 @@
                     android:backgroundTint="@color/purple_200"
                     android:gravity="center"
                     android:text="@string/tue"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="27sp" />
 
                 <TextView
@@ -94,7 +94,7 @@
                     android:backgroundTint="@color/purple_200"
                     android:gravity="center"
                     android:text="@string/wed"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="27sp" />
 
                 <TextView
@@ -105,7 +105,7 @@
                     android:backgroundTint="@color/gray"
                     android:gravity="center"
                     android:text="@string/thu"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="27sp" />
 
                 <TextView
@@ -116,7 +116,7 @@
                     android:backgroundTint="@color/gray"
                     android:gravity="center"
                     android:text="@string/fri"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="27sp" />
 
                 <TextView
@@ -127,7 +127,7 @@
                     android:backgroundTint="@color/purple_200"
                     android:gravity="center"
                     android:text="@string/sat"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="27sp" />
 
                 <TextView
@@ -138,7 +138,7 @@
                     android:backgroundTint="@color/gray"
                     android:gravity="center"
                     android:text="@string/sun"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="27sp" />
 
             </LinearLayout>
@@ -174,7 +174,7 @@
                 android:gravity="center"
                 android:text="@string/alarmSound"
                 android:textColor="@color/black_alpha"
-                android:textSize="32dp"/>
+                android:textSize="32sp"/>
 
             <Button
                 android:id="@+id/btnFile"
