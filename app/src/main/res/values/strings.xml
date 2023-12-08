@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">AWUA</string>
+    <string name="alarm">My alarm</string>
+    <string name="time">08.00</string>
+    <string name="newAlarm">new alarm</string>
+    <string name="mon">M</string>
+    <string name="tue">T</string>
+    <string name="wed">W</string>
+    <string name="thu">T</string>
+    <string name="fri">F</string>
+    <string name="sat">S</string>
+    <string name="sun">S</string>
+    <string name="alarmSound">No Music</string>
+    <string name="soundFile">Add Music File</string>
+
+</resources>
