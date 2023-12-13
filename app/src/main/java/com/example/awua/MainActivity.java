@@ -1,7 +1,12 @@
 package com.example.awua;
 
+import static android.os.Environment.DIRECTORY_MUSIC;
+import static android.os.Environment.getExternalStorageDirectory;
+import static android.os.Environment.getExternalStoragePublicDirectory;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
@@ -9,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,6 +38,20 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_newAlarm;
     private Button btn_musicFile;
 
+    private String songname = "SampleSong.mp3";
+    private String filepath = "MySongStorage";
+
+    private String alarmName;
+    private boolean monday;
+    private boolean tisdag;
+    private boolean wedsday;
+    private boolean torsdag;
+    private boolean fredag;
+    private boolean saterday;
+    private boolean sunday;
+    private int hour;
+    private int min;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,13 +69,29 @@ public class MainActivity extends AppCompatActivity {
         btn_newAlarm = (Button) findViewById(R.id.btnNew);
         btn_musicFile = (Button) findViewById(R.id.btnFile);
 
+        btn_newAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //run("Python/PlaySound.py");
+                //Intent intent=
+            }
+        });
+
         btn_musicFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                run("Python/PlaySound.py");
-// below you write code to change switch status and action to take
+                Intent intent= new Intent(MainActivity.this,MainActivityMP3.class);
+                startActivity(intent);
             }
         });
+
+        String song = getIntent().getStringExtra("mySong");
+        boolean sendToRbP = getIntent().getBooleanExtra("Send", false);
+
+
+        if(song!=null && sendToRbP == true){
+            txv_alarmSound.setText(song);
+        }
     }
 
     public void run (String command) {
@@ -95,5 +131,7 @@ public class MainActivity extends AppCompatActivity {
         { e.printStackTrace(System.err);
             System.exit(2); }
     }
+
+
 
 }

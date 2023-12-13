@@ -1,0 +1,174 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#FFFFFF">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/RelativeLayout01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/time"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alarm Name"
+            android:textColor="@color/black_alpha"
+            android:textSize="45sp"
+            android:typeface="monospace"/>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_above="@+id/calendar_days_of_week"
+            android:orientation="horizontal"
+            android:padding="15dip">
+
+            <TextView
+                android:id="@+id/txv_hourValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text="08"
+                android:textColor="@color/black_alpha"
+                android:textSize="45sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/txv_middel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text=":"
+                android:textColor="@color/black_alpha"
+                android:textSize="45sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/txv_minuteValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text="00"
+                android:textColor="@color/black_alpha"
+                android:textSize="45sp"
+                android:typeface="monospace"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/calendar_days_of_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:padding="5dip">
+
+            <TextView
+                android:id="@+id/txv_monTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_textview"
+                android:backgroundTint="@color/purple_200"
+                android:gravity="center"
+                android:text="@string/mon"
+                android:textColor="@android:color/black"
+                android:textSize="27sp" />
+
+            <TextView
+                android:id="@+id/txv_tueTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_textview"
+                android:backgroundTint="@color/purple_200"
+                android:gravity="center"
+                android:text="@string/tue"
+                android:textColor="@android:color/black"
+                android:textSize="27sp" />
+
+            <TextView
+                android:id="@+id/txv_wedTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_textview"
+                android:backgroundTint="@color/purple_200"
+                android:gravity="center"
+                android:text="@string/wed"
+                android:textColor="@android:color/black"
+                android:textSize="27sp" />
+
+            <TextView
+                android:id="@+id/txv_thuTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_textview"
+                android:backgroundTint="@color/gray"
+                android:gravity="center"
+                android:text="@string/thu"
+                android:textColor="@android:color/black"
+                android:textSize="27sp" />
+
+            <TextView
+                android:id="@+id/txv_friTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_textview"
+                android:backgroundTint="@color/gray"
+                android:gravity="center"
+                android:text="@string/fri"
+                android:textColor="@android:color/black"
+                android:textSize="27sp" />
+
+            <TextView
+                android:id="@+id/txv_satTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_textview"
+                android:backgroundTint="@color/purple_200"
+                android:gravity="center"
+                android:text="@string/sat"
+                android:textColor="@android:color/black"
+                android:textSize="27sp" />
+
+            <TextView
+                android:id="@+id/txv_sunTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_textview"
+                android:backgroundTint="@color/gray"
+                android:gravity="center"
+                android:text="@string/sun"
+                android:textColor="@android:color/black"
+                android:textSize="27sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/calendar_days_of_week"
+            android:layout_centerInParent="true">
+        <Button
+            android:id="@+id/btnFile"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="fill_parent"
+            android:layout_height="70dip"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="monospace"
+            android:padding="10dip"
+            android:text="Save Alarm"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

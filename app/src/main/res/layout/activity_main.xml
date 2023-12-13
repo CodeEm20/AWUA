@@ -172,9 +172,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:text="@string/alarmSound"
+                android:text="No music"
                 android:textColor="@color/black_alpha"
-                android:textSize="32sp"/>
+                android:textSize="32sp" />
 
             <Button
                 android:id="@+id/btnFile"
