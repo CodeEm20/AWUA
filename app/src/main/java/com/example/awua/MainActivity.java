@@ -1,20 +1,19 @@
 package com.example.awua;
 
-import static android.os.Environment.DIRECTORY_MUSIC;
-import static android.os.Environment.getExternalStorageDirectory;
-import static android.os.Environment.getExternalStoragePublicDirectory;
+import static java.text.DateFormat.DEFAULT;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,7 +23,6 @@ import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
 
 public class MainActivity extends AppCompatActivity {
-
     private TextView txv_alarm;
     private TextView txv_timeValue;
     private TextView txv_mon;
@@ -73,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //run("Python/PlaySound.py");
-                //Intent intent=
+                Intent intent= new Intent(MainActivity.this, MainActivityAlarm.class);
+                startActivity(intent);
             }
         });
 
@@ -85,14 +84,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String song = getIntent().getStringExtra("mySong");
-        boolean sendToRbP = getIntent().getBooleanExtra("Send", false);
+        Bundle extras = getIntent().getExtras();
 
+        if(extras != null) {
+            if(extras.containsKey("aName")) {
+                alarmName = extras.getString("aName");
+                if (alarmName != null) {
+                    txv_alarm.setText(alarmName);
+                }
+            }
+            if(extras.containsKey("mySong")) {
 
-        if(song!=null && sendToRbP == true){
-            txv_alarmSound.setText(song);
+                boolean sendToRbP = extras.getBoolean("Send");
+                String song = extras.getString("mySong");
+                if (song != null && sendToRbP == true) {
+                    txv_alarmSound.setText(song);
+                }
+            }
         }
+
+        SharedPreferences settings = getPreferences(MODE_PRIVATE);
+
     }
+
+    
+
 
     public void run (String command) {
         String hostname = "raspberrypi";

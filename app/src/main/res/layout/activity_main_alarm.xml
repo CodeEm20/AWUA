@@ -11,12 +11,13 @@
         android:layout_centerInParent="true"
         android:orientation="horizontal">
 
-        <TextView
+        <EditText
+            android:id="@+id/txv_myAlarm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alarm Name"
             android:textColor="@color/black_alpha"
             android:textSize="45sp"
+            android:inputType="text"
             android:typeface="monospace"/>
 
     </LinearLayout>
@@ -30,7 +31,7 @@
             android:orientation="horizontal"
             android:padding="15dip">
 
-            <TextView
+            <EditText
                 android:id="@+id/txv_hourValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,7 +73,7 @@
             android:padding="5dip">
 
             <TextView
-                android:id="@+id/txv_monTxt"
+                android:id="@+id/txv_monTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
@@ -83,7 +84,7 @@
                 android:textSize="27sp" />
 
             <TextView
-                android:id="@+id/txv_tueTxt"
+                android:id="@+id/txv_tueTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
@@ -94,7 +95,7 @@
                 android:textSize="27sp" />
 
             <TextView
-                android:id="@+id/txv_wedTxt"
+                android:id="@+id/txv_wedTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
@@ -105,7 +106,7 @@
                 android:textSize="27sp" />
 
             <TextView
-                android:id="@+id/txv_thuTxt"
+                android:id="@+id/txv_thuTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
@@ -116,7 +117,7 @@
                 android:textSize="27sp" />
 
             <TextView
-                android:id="@+id/txv_friTxt"
+                android:id="@+id/txv_friTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
@@ -127,7 +128,7 @@
                 android:textSize="27sp" />
 
             <TextView
-                android:id="@+id/txv_satTxt"
+                android:id="@+id/txv_satTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
@@ -138,7 +139,7 @@
                 android:textSize="27sp" />
 
             <TextView
-                android:id="@+id/txv_sunTxt"
+                android:id="@+id/txv_sunTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
@@ -155,7 +156,7 @@
             android:layout_below="@+id/calendar_days_of_week"
             android:layout_centerInParent="true">
         <Button
-            android:id="@+id/btnFile"
+            android:id="@+id/btnSave"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="fill_parent"
             android:layout_height="70dip"
