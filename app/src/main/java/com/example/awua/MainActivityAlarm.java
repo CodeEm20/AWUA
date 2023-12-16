@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+
 public class MainActivityAlarm extends AppCompatActivity {
 
     private EditText txv_alarmName;
@@ -22,7 +26,6 @@ public class MainActivityAlarm extends AppCompatActivity {
     private TextView txv_sat;
     private TextView txv_sun;
     private Button btn_save;
-    private String alarmName;
     private boolean monday;
     private boolean tisdag;
     private boolean wedsday;
@@ -56,9 +59,19 @@ public class MainActivityAlarm extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alarmName = txv_alarmName.getText().toString();
+                String alarmName = txv_alarmName.getText().toString();
                 Intent intent = new Intent(MainActivityAlarm.this, MainActivity.class);
+                //Send over information to MainActivity
                 intent.putExtra("aName",alarmName);
+                //Save to internal storage
+                File file = ((MyApplication) getApplication()).getSaveDataFile();
+                try {
+                    FileWriter writer = new FileWriter(file.getAbsoluteFile(), true);
+                    writer.write(alarmName);
+                    writer.close();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 startActivity(intent);
             }
         });

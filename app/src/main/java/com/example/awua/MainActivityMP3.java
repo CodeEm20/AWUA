@@ -27,6 +27,10 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class MainActivityMP3 extends AppCompatActivity {
@@ -78,10 +82,19 @@ public class MainActivityMP3 extends AppCompatActivity {
 
                     String songName = (String) listView.getItemAtPosition(i);
                     Intent intent=new Intent(MainActivityMP3.this,MainActivity.class);
+                    //Send over information to MainActivity
                     intent.putExtra("mySong", songName);
-                    intent.putExtra("Send", sendTo);
-                    startActivity(intent);
+                    //Save to internal storage
+                    File file = ((MyApplication) getApplication()).getSaveDataFile();
 
+                    try {
+                        FileWriter writer = new FileWriter(file.getAbsoluteFile(), true);
+                        writer.write(songName);
+                        writer.close();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    startActivity(intent);
                 }
             });
         } else {

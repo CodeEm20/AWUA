@@ -14,6 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,8 +42,11 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_newAlarm;
     private Button btn_musicFile;
 
-    private String songname = "SampleSong.mp3";
-    private String filepath = "MySongStorage";
+    private String songname;
+
+    private boolean firstOpen = true;
+    private String filepath;
+    public File file;
 
     private String alarmName;
     private boolean monday;
@@ -67,6 +76,17 @@ public class MainActivity extends AppCompatActivity {
         btn_newAlarm = (Button) findViewById(R.id.btnNew);
         btn_musicFile = (Button) findViewById(R.id.btnFile);
 
+        //Create file to save data on first open
+        if(firstOpen){
+            filepath = getApplicationContext().getFilesDir().getAbsolutePath();
+            file = new File(filepath + "/alarm.txt");
+            ((MyApplication) getApplication()).setSaveDataFile(file);
+            firstOpen = false;
+        } else {
+            loadContent();
+        }
+        alarmName = txv_alarm.getText().toString();
+        songname = txv_alarmSound.getText().toString();
         btn_newAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Bundle extras = getIntent().getExtras();
+        /*/Bundle extras = getIntent().getExtras();
 
         if(extras != null) {
             if(extras.containsKey("aName")) {
@@ -94,21 +114,49 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             if(extras.containsKey("mySong")) {
-
-                boolean sendToRbP = extras.getBoolean("Send");
-                String song = extras.getString("mySong");
-                if (song != null && sendToRbP == true) {
-                    txv_alarmSound.setText(song);
+                songname = extras.getString("mySong");
+                if (songname != null) {
+                    txv_alarmSound.setText(songname);
                 }
             }
-        }
+        }/*/
+    }
 
-        SharedPreferences settings = getPreferences(MODE_PRIVATE);
+    public void loadContent(){
+        byte[] content = new byte[(int) file.length()];
+
+        try {
+            FileInputStream stream = new FileInputStream(file);
+            stream.read(content);
+
+            alarmName = new String(content);
+            txv_alarm.setText(alarmName);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
-    
+    @Override
+    protected void onStart() {
+        alarmName = txv_alarm.getText().toString();
+        songname = txv_alarmSound.getText().toString();
+        super.onStart();
+    }
 
+    @Override
+    protected void onDestroy() {
+        try {
+            FileWriter writer = new FileWriter(file);
+            writer.write(alarmName);
+            writer.write(songname);
+            writer.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        super.onDestroy();
+    }
 
     public void run (String command) {
         String hostname = "raspberrypi";
@@ -125,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             conn.connect(); //start connection to the hostname
             boolean isAuthenticated = conn.authenticateWithPassword(username,
                     password);
-            if (isAuthenticated == false)
+            if (!isAuthenticated)
                 throw new IOException("Authentication failed.");
             Session sess = conn.openSession();
             sess.execCommand(command);
