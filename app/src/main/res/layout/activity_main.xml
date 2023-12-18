@@ -153,7 +153,7 @@
                 android:padding="10dip"
                 android:text="@string/newAlarm"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="25sp" />
         </LinearLayout>
         <LinearLayout
@@ -161,7 +161,6 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/alarmPanel"
-            android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true"
             android:background="#FFFFFF"
             android:orientation="vertical">
@@ -169,7 +168,7 @@
             <TextView
                 android:id="@+id/txv_alarmSound"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:text="@string/alarmSound"
@@ -189,7 +188,7 @@
                 android:padding="10dip"
                 android:text="@string/soundFile"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="25sp" />
 
             <FrameLayout
