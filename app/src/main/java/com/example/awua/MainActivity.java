@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         //Create file to save data on first open
         createFileIfNeeded();
 
-        loadContent();
+
 
         alarmName = txv_alarm.getText().toString();
         songname = txv_alarmSound.getText().toString();
@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             Log.v(TAG,"File already exist");
+            loadContent();
         }
     }
 
