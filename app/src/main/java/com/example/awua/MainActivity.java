@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
 
 public class MainActivity extends AppCompatActivity {
+    private final String TAG = "MainActivity";
     private TextView txv_alarm;
     private TextView txv_timeValue;
     private TextView txv_mon;
@@ -77,20 +79,16 @@ public class MainActivity extends AppCompatActivity {
         btn_musicFile = (Button) findViewById(R.id.btnFile);
 
         //Create file to save data on first open
-        if(firstOpen){
-            filepath = getApplicationContext().getFilesDir().getAbsolutePath();
-            file = new File(filepath + "/alarm.txt");
-            ((MyApplication) getApplication()).setSaveDataFile(file);
-            firstOpen = false;
-        } else {
-            loadContent();
-        }
+        createFileIfNeeded();
+
+        loadContent();
+
         alarmName = txv_alarm.getText().toString();
         songname = txv_alarmSound.getText().toString();
         btn_newAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //run("Python/PlaySound.py");
+                run("Python/PlaySound.py");
                 Intent intent= new Intent(MainActivity.this, MainActivityAlarm.class);
                 startActivity(intent);
             }
@@ -120,6 +118,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }/*/
+    }
+
+    private void createFileIfNeeded() {
+        filepath = getApplicationContext().getFilesDir().getAbsolutePath();
+        file = new File(filepath + "/alarm.txt");
+        if(!file.exists()){
+            try {
+                if (file.createNewFile()) {
+                    ((MyApplication) getApplication()).setSaveDataFile(file);
+                    Log.v(TAG,"File created");
+                }else {
+                    Log.v(TAG,"Failed to create file");
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        } else {
+            Log.v(TAG,"File already exist");
+        }
     }
 
     public void loadContent(){
@@ -162,38 +179,37 @@ public class MainActivity extends AppCompatActivity {
         String hostname = "raspberrypi";
         String username = "pi";
         String password = "raspberry";
-        try
-        {
-            StrictMode.ThreadPolicy policy = new
-                    StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Connection conn = new Connection(hostname); //init connection
-            conn.connect(); //start connection to the hostname
-            boolean isAuthenticated = conn.authenticateWithPassword(username,
-                    password);
-            if (!isAuthenticated)
-                throw new IOException("Authentication failed.");
+            Connection conn = new Connection(hostname); //Init connection
+            conn.connect(); //Start connection to the hostname
+
+            boolean isAuthenticated = conn.authenticateWithPassword(username, password);
+            if (!isAuthenticated) throw new IOException("Authentication failed.");
             Session sess = conn.openSession();
             sess.execCommand(command);
             InputStream stdout = new StreamGobbler(sess.getStdout());
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout));
-//reads text
+
+            //Reads text
             while (true){
-                String line = br.readLine(); // read line
+                String line = br.readLine();
                 if (line == null)
                     break;
                 System.out.println(line);
             }
-            /* Show exit status, if available (otherwise "null") */
+
+            //Show exit status, if available (otherwise "null")
             System.out.println("ExitCode: " + sess.getExitStatus());
             sess.close(); // Close this session
             conn.close();
         }
-        catch (IOException e)
-        { e.printStackTrace(System.err);
-            System.exit(2); }
+        catch (IOException e){
+            e.printStackTrace(System.err);
+            System.exit(2);
+        }
     }
 
 

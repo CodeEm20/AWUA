@@ -72,7 +72,7 @@ public class MainActivityMP3 extends AppCompatActivity {
         progressBar = findViewById(R.id.progressbar);
         progressBar.setVisibility(View.INVISIBLE);
 
-
+        //Feedback depending on results
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
@@ -86,16 +86,17 @@ public class MainActivityMP3 extends AppCompatActivity {
             }
         });
 
-
+        //Check if the app have permission for files
         if (checkPermission()) {
             File directory = new File(String.valueOf(Environment.getExternalStoragePublicDirectory("Music")));
-            File[] mp3files = directory.listFiles(new FileFilter() {
+            //Create ArrayList of files that only accepts files that end with .mp3
+            File[] mp3filesList = directory.listFiles(new FileFilter() {
                 @Override
                 public boolean accept(File file) {
                     return file.getName().endsWith(".mp3");
                 }
             });
-            for (File f : mp3files) {
+            for (File f : mp3filesList) {
                 mp3file.add(f.getName());
             }
             adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, mp3file);
@@ -103,14 +104,17 @@ public class MainActivityMP3 extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    File toUpload = mp3files[i];
+                    File toUpload = mp3filesList[i];
                     songName = (String) listView.getItemAtPosition(i);
+
+                    //Gets the uri for the mp3 file abd uploads it to firebase as well as sends you back to MainActivity
                     soundUri = Uri.fromFile(toUpload);
                     uploadToFirebase(soundUri);
 
                 }
             });
         } else {
+            //If no permission for files then request it
             requestPermission();
         }
 
@@ -130,7 +134,7 @@ public class MainActivityMP3 extends AppCompatActivity {
                         databaseReference.child(key).setValue(dataClass);
                         progressBar.setVisibility(View.INVISIBLE);
 
-                        //get URL to send to RaspberryPi
+                        //Get URL to send to RaspberryPi
                         storageReference.child(songName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -143,7 +147,7 @@ public class MainActivityMP3 extends AppCompatActivity {
                             }
                         });
 
-                        //go back to MainActivity
+                        //Go back to MainActivity
                         Intent intent=new Intent(MainActivityMP3.this,MainActivity.class);
                         //Send over information to MainActivity
                         intent.putExtra("mySong", songName);
@@ -205,12 +209,12 @@ public class MainActivityMP3 extends AppCompatActivity {
                 boolean readper = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 boolean writeper = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                 if (readper && writeper) {
-                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                    Log.v(TAG,"Permission Granted");
                 } else {
-                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                    Log.v(TAG,"Permission Denied");
                 }
             } else {
-                Toast.makeText(getApplicationContext(), "You Permission Denied", Toast.LENGTH_SHORT).show();
+                Log.v(TAG,"Permission Denied");
             }
         }
     }

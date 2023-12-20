@@ -36,10 +36,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dip"
-                android:text="08"
+                android:hint="00"
                 android:textColor="@color/black_alpha"
                 android:textSize="45sp"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:inputType="number"/>
 
             <TextView
                 android:id="@+id/txv_middel"
@@ -51,15 +52,16 @@
                 android:textSize="45sp"
                 android:typeface="monospace" />
 
-            <TextView
+            <EditText
                 android:id="@+id/txv_minuteValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dip"
-                android:text="00"
+                android:hint="00"
                 android:textColor="@color/black_alpha"
                 android:textSize="45sp"
-                android:typeface="monospace"/>
+                android:typeface="monospace"
+                android:inputType="number"/>
 
         </LinearLayout>
 
@@ -77,77 +79,77 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
-                android:backgroundTint="@color/purple_200"
                 android:gravity="center"
                 android:text="@string/mon"
                 android:textColor="@android:color/black"
-                android:textSize="27sp" />
+                android:textSize="27sp"
+                android:clickable="true"/>
 
             <TextView
                 android:id="@+id/txv_tueTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
-                android:backgroundTint="@color/purple_200"
                 android:gravity="center"
                 android:text="@string/tue"
                 android:textColor="@android:color/black"
-                android:textSize="27sp" />
+                android:textSize="27sp"
+                android:clickable="true"/>
 
             <TextView
                 android:id="@+id/txv_wedTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
-                android:backgroundTint="@color/purple_200"
                 android:gravity="center"
                 android:text="@string/wed"
                 android:textColor="@android:color/black"
-                android:textSize="27sp" />
+                android:textSize="27sp"
+                android:clickable="true"/>
 
             <TextView
                 android:id="@+id/txv_thuTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
-                android:backgroundTint="@color/gray"
                 android:gravity="center"
                 android:text="@string/thu"
                 android:textColor="@android:color/black"
-                android:textSize="27sp" />
+                android:textSize="27sp"
+                android:clickable="true"/>
 
             <TextView
                 android:id="@+id/txv_friTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
-                android:backgroundTint="@color/gray"
                 android:gravity="center"
                 android:text="@string/fri"
                 android:textColor="@android:color/black"
-                android:textSize="27sp" />
+                android:textSize="27sp"
+                android:clickable="true"/>
 
             <TextView
                 android:id="@+id/txv_satTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
-                android:backgroundTint="@color/purple_200"
                 android:gravity="center"
                 android:text="@string/sat"
                 android:textColor="@android:color/black"
-                android:textSize="27sp" />
+                android:textSize="27sp"
+                android:clickable="true"/>
 
             <TextView
                 android:id="@+id/txv_sunTxtA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_textview"
-                android:backgroundTint="@color/gray"
                 android:gravity="center"
                 android:text="@string/sun"
                 android:textColor="@android:color/black"
-                android:textSize="27sp" />
+                android:textSize="27sp"
+                android:clickable="true"/>
 
         </LinearLayout>
         <LinearLayout
