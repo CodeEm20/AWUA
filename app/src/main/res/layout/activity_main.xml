@@ -162,13 +162,16 @@
 
             <TextView
                 android:id="@+id/txv_alarmSound"
-                android:layout_width="fill_parent"
-                android:layout_height="80dp"
+                android:layout_width="320dp"
+                android:layout_height="52sp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
+                android:layout_gravity="center_horizontal"
                 android:text="@string/alarmSound"
                 android:textColor="@color/black_alpha"
-                android:textSize="32sp" />
+                android:textSize="32sp"
+                android:singleLine="true"
+                android:scrollHorizontally="true"/>
 
             <Button
                 android:id="@+id/btnFile"

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,8 +23,7 @@ import java.util.Arrays;
 public class MainActivityAlarm extends AppCompatActivity {
 
     private EditText txv_alarmName;
-    private EditText txv_hour;
-    private EditText txv_minute;
+    private TimePicker timePicker;
     private TextView txv_mon;
     private TextView txv_tue;
     private TextView txv_wed;
@@ -40,8 +40,7 @@ public class MainActivityAlarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_alarm);
         txv_alarmName = (EditText) findViewById(R.id.txv_myAlarm);
-        txv_hour = (EditText) findViewById(R.id.txv_hourValue);
-        txv_minute = (EditText) findViewById(R.id.txv_minuteValue);
+        timePicker = (TimePicker) findViewById(R.id.timePicker);
         txv_mon = (TextView) findViewById(R.id.txv_monTxtA);
         txv_tue = (TextView) findViewById(R.id.txv_tueTxtA);
         txv_wed = (TextView) findViewById(R.id.txv_wedTxtA);
@@ -51,8 +50,9 @@ public class MainActivityAlarm extends AppCompatActivity {
         txv_sun = (TextView) findViewById(R.id.txv_sunTxtA);
         btn_save = (Button) findViewById(R.id.btnSave);
 
+        timePicker.setIs24HourView(true);
         txv_alarmName.setHint("Alarm name");
-        Boolean[] alarmDays = new Boolean[7];
+        boolean[] alarmDays = new boolean[7];
         Arrays.fill(alarmDays, false);
 
         txv_mon.setBackground(getResources().getDrawable(R.drawable.circle));
@@ -159,14 +159,27 @@ public class MainActivityAlarm extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String alarmName = txv_alarmName.getText().toString();
+                hour = timePicker.getHour();
+                min = timePicker.getMinute();
                 Intent intent = new Intent(MainActivityAlarm.this, MainActivity.class);
                 //Send over information to MainActivity
                 intent.putExtra("aName",alarmName);
                 //Save to internal storage
-                File file = ((MyApplication) getApplication()).getSaveDataFile();
+                File file =new File(getApplicationContext().getFilesDir(), "alarm.txt");
                 try {
                     FileWriter writer = new FileWriter(file.getAbsoluteFile(), true);
-                    writer.write(alarmName);
+                    writer.write("@*Name:" + alarmName);
+                    writer.write("@*Days:");
+                    writer.write("%*0:" + alarmDays[0]);
+                    writer.write("%*1:" + alarmDays[1]);
+                    writer.write("%*2:" + alarmDays[2]);
+                    writer.write("%*3:" + alarmDays[3]);
+                    writer.write("%*4:" + alarmDays[4]);
+                    writer.write("%*5:" + alarmDays[5]);
+                    writer.write("%*6:" + alarmDays[6]);
+                    writer.write("@*Hour:" + hour);
+                    writer.write("%*Min:" + min);
+                    writer.flush();
                     writer.close();
                 } catch (Exception e) {
                     throw new RuntimeException(e);

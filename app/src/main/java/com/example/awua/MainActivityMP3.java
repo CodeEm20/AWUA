@@ -30,8 +30,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -39,10 +42,16 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -55,6 +64,7 @@ public class MainActivityMP3 extends AppCompatActivity {
     private ListView listView;
     ProgressBar progressBar;
     private Uri soundUri;
+    private String URL;
     private String songName;
     final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Music");
     final private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
@@ -107,8 +117,7 @@ public class MainActivityMP3 extends AppCompatActivity {
                     songName = (String) listView.getItemAtPosition(i);
 
                     //Gets the uri for the mp3 file abd uploads it to firebase as well as sends you back to MainActivity
-                    soundUri = Uri.fromFile(toUpload);
-                    uploadToFirebase(soundUri);
+                    uploadToFirebase(toUpload);
 
                 }
             });
@@ -119,10 +128,46 @@ public class MainActivityMP3 extends AppCompatActivity {
 
     }
 
-    private void uploadToFirebase(Uri uri){
-        final StorageReference soundReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (checkPermission()) {
+            File directory = new File(String.valueOf(Environment.getExternalStoragePublicDirectory("Music")));
+            //Create ArrayList of files that only accepts files that end with .mp3
+            File[] mp3filesList = directory.listFiles(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    return file.getName().endsWith(".mp3");
+                }
+            });
+            assert mp3filesList != null;
+            for (File f : mp3filesList) {
+                mp3file.add(f.getName());
+            }
+            adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, mp3file);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    File toUpload = mp3filesList[i];
+                    songName = (String) listView.getItemAtPosition(i);
 
-        soundReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    //Gets the uri for the mp3 file abd uploads it to firebase as well as sends you back to MainActivity
+                    uploadToFirebase(toUpload);
+
+                }
+            });
+        } else {
+            //Go back to MainActivity
+            Intent intent=new Intent(MainActivityMP3.this,MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void uploadToFirebase(File toUpload) {
+        soundUri = Uri.fromFile(toUpload);
+        final StorageReference soundReference = storageReference.child("music/" + soundUri.getLastPathSegment());
+        soundReference.putFile(soundUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 soundReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -134,28 +179,18 @@ public class MainActivityMP3 extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
 
                         //Get URL to send to RaspberryPi
-                        storageReference.child(songName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Log.v(TAG,"Found: " + songName);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.v(TAG,"No");
-                            }
-                        });
+                        URL = dataClass.getSoundURL();
+                        Log.v(TAG,URL);
 
                         //Go back to MainActivity
                         Intent intent=new Intent(MainActivityMP3.this,MainActivity.class);
                         //Send over information to MainActivity
                         intent.putExtra("mySong", songName);
                         //Save to internal storage
-                        File file = ((MyApplication) getApplication()).getSaveDataFile();
-
+                        File file = new File(getApplicationContext().getFilesDir(), "alarm.txt");
                         try {
                             FileWriter writer = new FileWriter(file.getAbsoluteFile(), true);
-                            writer.write(songName);
+                            writer.write("@*Song:" + songName);
                             writer.close();
                         } catch (Exception e) {
                             throw new RuntimeException(e);

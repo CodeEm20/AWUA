@@ -3,66 +3,32 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <LinearLayout
-        android:id="@+id/RelativeLayout01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/time"
-        android:layout_centerInParent="true"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/txv_myAlarm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Alarm Name"
-            android:textColor="@color/black_alpha"
-            android:textSize="45sp"
-            android:inputType="text"
-            android:typeface="monospace"/>
-
-    </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
+            android:id="@+id/RelativeLayout01"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_above="@+id/calendar_days_of_week"
-            android:orientation="horizontal"
-            android:padding="15dip">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:orientation="vertical">
 
             <EditText
-                android:id="@+id/txv_hourValue"
+                android:id="@+id/txv_myAlarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:hint="00"
-                android:textColor="@color/black_alpha"
-                android:textSize="45sp"
-                android:typeface="monospace"
-                android:inputType="number"/>
-
-            <TextView
-                android:id="@+id/txv_middel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:text=":"
+                android:layout_gravity="center_horizontal"
+                android:hint="Alarm Name"
+                android:inputType="text"
                 android:textColor="@color/black_alpha"
                 android:textSize="45sp"
                 android:typeface="monospace" />
 
-            <EditText
-                android:id="@+id/txv_minuteValue"
-                android:layout_width="wrap_content"
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:hint="00"
-                android:textColor="@color/black_alpha"
-                android:textSize="45sp"
-                android:typeface="monospace"
-                android:inputType="number"/>
+                android:timePickerMode="spinner" />
 
         </LinearLayout>
 
@@ -70,8 +36,9 @@
             android:id="@+id/calendar_days_of_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="30dp"
+            android:layout_below="@+id/RelativeLayout01"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
             android:orientation="horizontal"
             android:padding="5dip">
 
@@ -153,26 +120,26 @@
                 android:textSize="27sp" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/calendar_days_of_week"
+            android:layout_marginTop="80dp"
             android:layout_centerInParent="true">
-        <Button
-            android:id="@+id/btnSave"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="fill_parent"
-            android:layout_height="70dip"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="monospace"
-            android:padding="10dip"
-            android:text="Save Alarm"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="25sp" />
+
+            <Button
+                android:id="@+id/btnSave"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="fill_parent"
+                android:layout_height="70dip"
+                android:fontFamily="monospace"
+                android:padding="10dip"
+                android:layout_gravity="center"
+                android:text="Save Alarm"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
