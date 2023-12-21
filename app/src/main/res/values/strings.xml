@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AWUA</string>
     <string name="alarm">My alarm</string>
-    <string name="time">08.00</string>
+    <string name="time">00:00</string>
     <string name="newAlarm">new alarm</string>
     <string name="mon">M</string>
     <string name="tue">T</string>

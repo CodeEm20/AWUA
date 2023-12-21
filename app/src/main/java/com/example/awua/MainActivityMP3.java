@@ -61,8 +61,6 @@ public class MainActivityMP3 extends AppCompatActivity {
     ArrayList<String> mp3file=new ArrayList<String>();
     ArrayAdapter<String> adapter;
 
-    boolean sendTo = true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -96,6 +94,7 @@ public class MainActivityMP3 extends AppCompatActivity {
                     return file.getName().endsWith(".mp3");
                 }
             });
+            assert mp3filesList != null;
             for (File f : mp3filesList) {
                 mp3file.add(f.getName());
             }
@@ -179,13 +178,12 @@ public class MainActivityMP3 extends AppCompatActivity {
             }
         });
     }
-    private String getFileExtension(Uri fileUri){
+    private String getFileExtension(Uri fileUri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(contentResolver.getType(fileUri));
     }
-    void requestPermission()
-    {
+    void requestPermission() {
         try {
             Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
             intent.addCategory("android.intent.category.DEFAULT");
@@ -197,8 +195,7 @@ public class MainActivityMP3 extends AppCompatActivity {
             activityResultLauncher.launch(intent);
         }
     }
-    boolean checkPermission()
-    {
+    boolean checkPermission() {
         return Environment.isExternalStorageManager();
     }
     @Override
@@ -206,9 +203,9 @@ public class MainActivityMP3 extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 30) {
             if (grantResults.length > 0) {
-                boolean readper = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                boolean writeper = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                if (readper && writeper) {
+                boolean readPer = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                boolean writePer = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                if (readPer && writePer) {
                     Log.v(TAG,"Permission Granted");
                 } else {
                     Log.v(TAG,"Permission Denied");

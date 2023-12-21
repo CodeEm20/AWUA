@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,9 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_newAlarm;
     private Button btn_musicFile;
 
-    private String songname;
+    private String songName;
 
-    private boolean firstOpen = true;
     private String filepath;
     public File file;
 
@@ -75,20 +75,21 @@ public class MainActivity extends AppCompatActivity {
         txv_sat = (TextView) findViewById(R.id.txv_satTxt);
         txv_sun = (TextView) findViewById(R.id.txv_sunTxt);
         txv_alarmSound = (TextView) findViewById(R.id.txv_alarmSound);
+        txv_alarmSound.setMovementMethod(new ScrollingMovementMethod());
         btn_newAlarm = (Button) findViewById(R.id.btnNew);
         btn_musicFile = (Button) findViewById(R.id.btnFile);
 
-        //Create file to save data on first open
+
+        //Create file to save data on first open and if the file exist do loadContent()
         createFileIfNeeded();
 
-
-
         alarmName = txv_alarm.getText().toString();
-        songname = txv_alarmSound.getText().toString();
+        songName = txv_alarmSound.getText().toString();
+
         btn_newAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                run("Python/PlaySound.py");
+                //run("Python/PlaySound.py");
                 Intent intent= new Intent(MainActivity.this, MainActivityAlarm.class);
                 startActivity(intent);
             }
@@ -102,22 +103,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*/Bundle extras = getIntent().getExtras();
-
-        if(extras != null) {
-            if(extras.containsKey("aName")) {
-                alarmName = extras.getString("aName");
-                if (alarmName != null) {
-                    txv_alarm.setText(alarmName);
-                }
-            }
-            if(extras.containsKey("mySong")) {
-                songname = extras.getString("mySong");
-                if (songname != null) {
-                    txv_alarmSound.setText(songname);
-                }
-            }
-        }/*/
     }
 
     private void createFileIfNeeded() {
@@ -150,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
             alarmName = new String(content);
             txv_alarm.setText(alarmName);
 
+            songName = new String(content);
+            txv_alarmSound.setText(songName);
+
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -157,18 +145,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        alarmName = txv_alarm.getText().toString();
-        songname = txv_alarmSound.getText().toString();
-        super.onStart();
-    }
-
-    @Override
     protected void onDestroy() {
         try {
             FileWriter writer = new FileWriter(file);
             writer.write(alarmName);
-            writer.write(songname);
+            writer.write(songName);
             writer.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -185,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
 
             Connection conn = new Connection(hostname); //Init connection
+            
             conn.connect(); //Start connection to the hostname
 
             boolean isAuthenticated = conn.authenticateWithPassword(username, password);
@@ -209,7 +191,8 @@ public class MainActivity extends AppCompatActivity {
         }
         catch (IOException e){
             e.printStackTrace(System.err);
-            System.exit(2);
+            //System.exit(2);
+            Log.v("Pi","No connection");
         }
     }
 
