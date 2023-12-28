@@ -219,6 +219,8 @@ public class MainActivityAlarm extends AppCompatActivity {
     }
 
     public void run (String command) {
+
+        //IP is hardcoded to my home network and will require change on different networks
         String hostname = "10.0.0.63";
         String username = "pi";
         String password = "raspberry";
