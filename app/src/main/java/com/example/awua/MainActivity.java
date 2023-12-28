@@ -44,26 +44,24 @@ public class MainActivity extends AppCompatActivity {
     private TextView txv_fri;
     private TextView txv_sat;
     private TextView txv_sun;
-
     private TextView[] dayView;
     private TextView txv_alarmSound;
     private Button btn_newAlarm;
     private Button btn_musicFile;
-
     private String songName;
-
     private String filepath;
-    public File file;
 
+    public File file;
     private String alarmName;
     private boolean[] alarmDays;
     private String time;
-
     boolean goingToOtherActivity;
     boolean toAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         txv_alarm = (TextView) findViewById(R.id.txv_alarmTxt);
@@ -313,46 +311,4 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onStop();
     }
-
-    public void run (String command) {
-        String hostname = "raspberrypi";
-        String username = "pi";
-        String password = "raspberry";
-        try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
-            Connection conn = new Connection(hostname); //Init connection
-            
-            conn.connect(); //Start connection to the hostname
-
-            boolean isAuthenticated = conn.authenticateWithPassword(username, password);
-            if (!isAuthenticated) throw new IOException("Authentication failed.");
-            Session sess = conn.openSession();
-            sess.execCommand(command);
-            InputStream stdout = new StreamGobbler(sess.getStdout());
-            BufferedReader br = new BufferedReader(new InputStreamReader(stdout));
-
-            //Reads text
-            while (true){
-                String line = br.readLine();
-                if (line == null)
-                    break;
-                System.out.println(line);
-            }
-
-            //Show exit status, if available (otherwise "null")
-            System.out.println("ExitCode: " + sess.getExitStatus());
-            sess.close(); // Close this session
-            conn.close();
-        }
-        catch (IOException e){
-            e.printStackTrace(System.err);
-            //System.exit(2);
-            Log.v("Pi","No connection");
-        }
-    }
-
-
-
 }

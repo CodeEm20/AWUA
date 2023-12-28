@@ -8,17 +8,27 @@ import androidx.core.content.res.ResourcesCompat;
 import android.content.Intent;
 import android.graphics.ColorSpace;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+
+import ch.ethz.ssh2.Connection;
+import ch.ethz.ssh2.Session;
+import ch.ethz.ssh2.StreamGobbler;
 
 public class MainActivityAlarm extends AppCompatActivity {
 
@@ -34,6 +44,7 @@ public class MainActivityAlarm extends AppCompatActivity {
     private Button btn_save;
     private int hour;
     private int min;
+    private final String TAG = "MainActivityAlarm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,8 +196,64 @@ public class MainActivityAlarm extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
                 startActivity(intent);
+
+                Log.v(TAG, "Run command on Pi");
+                // schedule job to run on specific time using cron jobs
+                String days = "";
+                if (alarmDays[6]) days = days + "0,";
+                if (alarmDays[0]) days = days + "1,";
+                if (alarmDays[1]) days = days + "2,";
+                if (alarmDays[2]) days = days + "3,";
+                if (alarmDays[3]) days = days + "4,";
+                if (alarmDays[4]) days = days + "5,";
+                if (alarmDays[5]) days = days + "6,";
+
+                days = days.substring(0, days.length() - 1);
+
+                run("(echo \"" + min + " " + hour + " * * " + days + " python Python/PlaySound.py\") | crontab -");
+                //run("python Python/PlaySound.py");
+                Log.v(TAG, "Done running command");
             }
         });
 
+    }
+
+    public void run (String command) {
+        String hostname = "10.0.0.63";
+        String username = "pi";
+        String password = "raspberry";
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            Connection conn = new Connection(hostname); //Init connection
+
+            conn.connect(); //Start connection to the hostname
+
+            boolean isAuthenticated = conn.authenticateWithPassword(username, password);
+            if (!isAuthenticated) throw new IOException("Authentication failed.");
+            Session sess = conn.openSession();
+            sess.execCommand(command);
+            InputStream stdout = new StreamGobbler(sess.getStdout());
+            BufferedReader br = new BufferedReader(new InputStreamReader(stdout));
+
+            //Reads text
+            while (true){
+                String line = br.readLine();
+                if (line == null)
+                    break;
+                System.out.println(line);
+            }
+
+            //Show exit status, if available (otherwise "null")
+            System.out.println("ExitCode: " + sess.getExitStatus());
+            sess.close(); // Close this session
+            conn.close();
+        }
+        catch (Exception e){
+            e.printStackTrace(System.err);
+            //System.exit(2);
+            Log.v("Pi","No connection");
+        }
     }
 }
