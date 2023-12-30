@@ -198,7 +198,7 @@ public class MainActivityAlarm extends AppCompatActivity {
                 startActivity(intent);
 
                 Log.v(TAG, "Run command on Pi");
-                // schedule job to run on specific time using cron jobs
+                //Schedule job to run on specific time using cron jobs
                 String days = "";
                 if (alarmDays[6]) days = days + "0,";
                 if (alarmDays[0]) days = days + "1,";
@@ -254,7 +254,6 @@ public class MainActivityAlarm extends AppCompatActivity {
         }
         catch (Exception e){
             e.printStackTrace(System.err);
-            //System.exit(2);
             Log.v("Pi","No connection");
         }
     }

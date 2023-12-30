@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +43,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileFilter;
@@ -51,10 +53,15 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import ch.ethz.ssh2.Connection;
+import ch.ethz.ssh2.Session;
+import ch.ethz.ssh2.StreamGobbler;
 
 public class MainActivityMP3 extends AppCompatActivity {
 
@@ -181,6 +188,10 @@ public class MainActivityMP3 extends AppCompatActivity {
                         //Get URL to send to RaspberryPi
                         URL = dataClass.getSoundURL();
                         Log.v(TAG,URL);
+                        if (URL != null) {
+                            run("python Python/GetSong.py " + URL);
+                            Log.v(TAG,"Sent to pi");
+                        }
 
                         //Go back to MainActivity
                         Intent intent=new Intent(MainActivityMP3.this,MainActivity.class);
@@ -248,6 +259,46 @@ public class MainActivityMP3 extends AppCompatActivity {
             } else {
                 Log.v(TAG,"Permission Denied");
             }
+        }
+    }
+
+    public void run (String command) {
+
+        //IP is hardcoded to my home network and will require change on different networks
+        String hostname = "10.0.0.63";
+        String username = "pi";
+        String password = "raspberry";
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            Connection conn = new Connection(hostname); //Init connection
+
+            conn.connect(); //Start connection to the hostname
+
+            boolean isAuthenticated = conn.authenticateWithPassword(username, password);
+            if (!isAuthenticated) throw new IOException("Authentication failed.");
+            Session sess = conn.openSession();
+            sess.execCommand(command);
+            InputStream stdout = new StreamGobbler(sess.getStdout());
+            BufferedReader br = new BufferedReader(new InputStreamReader(stdout));
+
+            //Reads text
+            while (true){
+                String line = br.readLine();
+                if (line == null)
+                    break;
+                System.out.println(line);
+            }
+
+            //Show exit status, if available (otherwise "null")
+            System.out.println("ExitCode: " + sess.getExitStatus());
+            sess.close(); // Close this session
+            conn.close();
+        }
+        catch (Exception e){
+            e.printStackTrace(System.err);
+            Log.v("Pi","No connection");
         }
     }
 }
