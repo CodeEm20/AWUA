@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //run("Python/PlaySound.py");
-                Intent intent= new Intent(MainActivity.this, MainActivityAlarm.class);
+                Intent intent= new Intent(MainActivity.this, ActivityAlarm.class);
                 goingToOtherActivity = true;
                 toAlarm = true;
                 startActivity(intent);
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         btn_musicFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(MainActivity.this,MainActivityMP3.class);
+                Intent intent= new Intent(MainActivity.this,ActivityMP3.class);
                 goingToOtherActivity = true;
                 toAlarm = false;
                 startActivity(intent);

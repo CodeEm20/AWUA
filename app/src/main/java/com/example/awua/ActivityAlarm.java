@@ -1,12 +1,8 @@
 package com.example.awua;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
-import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -18,19 +14,17 @@ import android.widget.TimePicker;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
 
-public class MainActivityAlarm extends AppCompatActivity {
+public class ActivityAlarm extends AppCompatActivity {
 
     private EditText txv_alarmName;
     private TimePicker timePicker;
@@ -44,7 +38,7 @@ public class MainActivityAlarm extends AppCompatActivity {
     private Button btn_save;
     private int hour;
     private int min;
-    private final String TAG = "MainActivityAlarm";
+    private final String TAG = "ActivityAlarm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +166,7 @@ public class MainActivityAlarm extends AppCompatActivity {
                 String alarmName = txv_alarmName.getText().toString();
                 hour = timePicker.getHour();
                 min = timePicker.getMinute();
-                Intent intent = new Intent(MainActivityAlarm.this, MainActivity.class);
+                Intent intent = new Intent(ActivityAlarm.this, MainActivity.class);
                 //Send over information to MainActivity
                 intent.putExtra("aName",alarmName);
                 //Save to internal storage

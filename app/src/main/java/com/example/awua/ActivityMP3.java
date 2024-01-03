@@ -9,15 +9,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -29,13 +26,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,28 +37,21 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
 
-public class MainActivityMP3 extends AppCompatActivity {
+public class ActivityMP3 extends AppCompatActivity {
 
-    private static final String TAG = "MainActivityMP3";
+    private static final String TAG = "ActivityMP3";
     ActivityResultLauncher<Intent> activityResultLauncher;
     String[] permission ={READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE};
     private ListView listView;
@@ -166,7 +152,7 @@ public class MainActivityMP3 extends AppCompatActivity {
             });
         } else {
             //Go back to MainActivity
-            Intent intent=new Intent(MainActivityMP3.this,MainActivity.class);
+            Intent intent=new Intent(ActivityMP3.this,MainActivity.class);
             startActivity(intent);
         }
     }
@@ -194,7 +180,7 @@ public class MainActivityMP3 extends AppCompatActivity {
                         }
 
                         //Go back to MainActivity
-                        Intent intent=new Intent(MainActivityMP3.this,MainActivity.class);
+                        Intent intent=new Intent(ActivityMP3.this,MainActivity.class);
                         //Send over information to MainActivity
                         intent.putExtra("mySong", songName);
                         //Save to internal storage
