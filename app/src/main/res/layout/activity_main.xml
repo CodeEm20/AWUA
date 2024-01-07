@@ -10,7 +10,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:background="#FFFFFF"
             android:orientation="vertical"
             android:padding="10dip">
@@ -162,16 +162,13 @@
 
             <TextView
                 android:id="@+id/txv_alarmSound"
-                android:layout_width="320dp"
-                android:layout_height="52sp"
+                android:layout_width="340dp"
+                android:layout_height="60dp"
                 android:layout_marginBottom="20dp"
-                android:gravity="center"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/alarmSound"
                 android:textColor="@color/black_alpha"
                 android:textSize="32sp"
-                android:singleLine="true"
-                android:scrollHorizontally="true"/>
+                android:singleLine="true"/>
 
             <Button
                 android:id="@+id/btnFile"

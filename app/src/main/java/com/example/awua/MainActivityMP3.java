@@ -184,8 +184,10 @@ public class MainActivityMP3 extends AppCompatActivity {
 
                         //Go back to MainActivity
                         Intent intent=new Intent(MainActivityMP3.this,MainActivity.class);
-                        //Send over information to MainActivity
-                        intent.putExtra("mySong", songName);
+
+                        songName = toUpload.getName().toString();
+                        Log.v(TAG,songName);
+
                         //Save to internal storage
                         File file = new File(getApplicationContext().getFilesDir(), "alarm.txt");
                         try {

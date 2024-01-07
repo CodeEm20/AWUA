@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     txv_alarm.setText(alarmName);
                 } else if (a.contains("*Song:")) {
                     songName = a.replace("*Song:", "");
+                    Log.v(TAG,"Song: " + songName);
                     txv_alarmSound.setText(songName);
                 } else if (a.contains("*Days:")) {
                     a = a.replace("*Days:%", "");
