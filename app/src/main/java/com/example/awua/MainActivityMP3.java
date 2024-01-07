@@ -189,7 +189,8 @@ public class MainActivityMP3 extends AppCompatActivity {
                         URL = dataClass.getSoundURL();
                         Log.v(TAG,URL);
                         if (URL != null) {
-                            run("python Python/GetSong.py " + URL);
+                            //run("python Python/GetSong.py " + URL);
+                            run("bash Python/getsong.sh " + URL);
                             Log.v(TAG,"Sent to pi");
                         }
 

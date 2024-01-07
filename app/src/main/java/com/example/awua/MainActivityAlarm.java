@@ -210,7 +210,7 @@ public class MainActivityAlarm extends AppCompatActivity {
 
                 days = days.substring(0, days.length() - 1);
 
-                run("(echo \"" + min + " " + hour + " * * " + days + " python Python/PlaySound.py\") | crontab -");
+                run("(echo \"" + min + " " + hour + " * * " + days + " bash Python/alarm.sh\") | crontab -");
                 //run("python Python/PlaySound.py");
                 Log.v(TAG, "Done running command");
             }
